@@ -97,7 +97,9 @@ def barchart(specs_dictionary):
                                    font=dict(size=23),
                                    font_family='Arial',
                                    font_color='#7E6E13',
-                                   autosize = True
+                                   autosize=True,
+                                    width=400,
+                                    height=400
                                    ),
 
                         xaxis_title=specs_dictionary["xaxis_title"],
