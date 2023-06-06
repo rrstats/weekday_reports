@@ -96,7 +96,8 @@ def barchart(specs_dictionary):
     chart.update_layout(title=dict(text='<b>' + specs_dictionary["title"] + '</b>',
                                    font=dict(size=23),
                                    font_family='Arial',
-                                   font_color='#7E6E13'
+                                   font_color='#7E6E13',
+                                   autosize = True
                                    ),
 
                         xaxis_title=specs_dictionary["xaxis_title"],
