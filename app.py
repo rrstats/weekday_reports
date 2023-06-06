@@ -4,6 +4,7 @@ import yfinance as yf
 import datetime as dt
 import plotly.express as px
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 import streamlit as st
 import re
 
@@ -96,14 +97,14 @@ def barchart(specs_dictionary):
     chart.update_layout(title=dict(text='<b>' + specs_dictionary["title"] + '</b>',
                                    font=dict(size=23),
                                    font_family='Arial',
-                                   font_color='#7E6E13',
-
+                                   font_color='#7E6E13'
                                    ),
 
                         xaxis_title=specs_dictionary["xaxis_title"],
                         yaxis_title=specs_dictionary["yaxis_title"],
                         plot_bgcolor='rgba(0, 0, 0, 0)',
                         paper_bgcolor='rgba(0, 0, 0, 0)',
+
                         )
 
     chart.update_xaxes(title_font_family='Arial',
@@ -210,7 +211,7 @@ median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        'xaxis_title': 'DAY',
                                        'yaxis_title': 'MEDIAN INTRADAY CHANGE'
                                        }
-st.write(barchart(median_intraday_changes_chart_specs))
+st.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
 
 ###################################################################################
 def one_way(rise_or_fall):
@@ -320,4 +321,4 @@ past_days_chart_specs = {'x': past_days['Date'],
                          'xaxis_title': f'PREVIOUS {(past_days["Day"][0]).upper()}S',
                          'yaxis_title': 'RISE OR FALL'
                          }
-st.plotly_chart(barchart(past_days_chart_specs))
+st.plotly_chart(barchart(past_days_chart_specs), use_container_width=True)
