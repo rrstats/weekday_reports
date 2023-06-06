@@ -4,6 +4,7 @@ import yfinance as yf
 import datetime as dt
 import plotly.express as px
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 import streamlit as st
 import re
 
@@ -143,7 +144,7 @@ median_volumes = pd.DataFrame({'Day': median_volumes.keys(),
 
 median_volumes_chart_specs = {'x': median_volumes['Day'],
                               'y': median_volumes['Median_Volume'],
-                            'title' : f'AVERAGE WEEKDAY VOLUME<br><sup>{option}',
+                            'title' : f'AVERAGE WEEKDAY<br>VOLUME<br><sup>{option}',
 
                               # can be one color or multiple colors
                               'marker_color': '#0A7029',
@@ -193,7 +194,7 @@ st.table(median_intraday_changes)
 ####################################################################################
 median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        'y': median_intraday_changes['Median Intraday Change'],
-                                        'title' : f'AVERAGE INTRADAY POSITIVE CHANGE<br><sup>{option}',
+                                        'title' : f'AVERAGE INTRADAY<br>POSITIVE CHANGE<br><sup>{option}',
 
                                        # can be one color or multiple colors
                                        'marker_color': '#0A7029',
@@ -303,7 +304,7 @@ past_days = past_particular_weekday(chosen_day[:3])
 
 past_days_chart_specs = {'x': past_days['Date'],
                          'y': past_days['Close-Open'],
-                         'title': f'HOW MUCH DID {option} RISE OR FALL?',
+                         'title': f'HOW MUCH DID<br>{option} RISE OR FALL?',
 
                          # can be one color or multiple colors
                          'marker_color': past_days["Color"],
