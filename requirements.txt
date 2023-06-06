@@ -1,0 +1,8 @@
+pandas
+numpy
+yfinance
+datetime
+plotly.express
+plotly.graph_objects
+matplotlib.pyplot
+re
