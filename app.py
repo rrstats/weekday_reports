@@ -4,7 +4,6 @@ import yfinance as yf
 import datetime as dt
 import plotly.express as px
 import plotly.graph_objects as go
-import matplotlib.pyplot as plt
 import streamlit as st
 import re
 
