@@ -245,12 +245,12 @@ def one_way(rise_or_fall):
 
 
 st.title(f"When {option} Only Fell")
-st.write(f"Listed below are the days when the {option} stock the price only kept falling. "
+st.write(f"Listed below are the days when the {option} stock price only kept falling. "
          f"On these days, it never went above the opening price. This data is for the past {days} days.")
 st.table(one_way("Fall"))
 
 st.title(f"When  {option} Only Rose")
-st.write(f"Listed below are the days when the {option} stock the price only rose. "
+st.write(f"Listed below are the days when the {option} stock price only rose. "
          f"On these days, it never went below the opening price. This data is for the past {days} days.")
 st.table(one_way("Rise"))
 
