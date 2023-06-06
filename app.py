@@ -103,8 +103,8 @@ def barchart(specs_dictionary):
                         yaxis_title=specs_dictionary["yaxis_title"],
                         plot_bgcolor='rgba(0, 0, 0, 0)',
                         paper_bgcolor='rgba(0, 0, 0, 0)',
-                        xaxis={'title': 'x-axis', 'fixedrange': True},
-                        yaxis={'title': 'y-axis', 'fixedrange': True}
+                        xaxis={'fixedrange': True},
+                        yaxis={'fixedrange': True}
 
                         )
 
