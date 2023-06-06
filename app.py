@@ -103,6 +103,8 @@ def barchart(specs_dictionary):
                         yaxis_title=specs_dictionary["yaxis_title"],
                         plot_bgcolor='rgba(0, 0, 0, 0)',
                         paper_bgcolor='rgba(0, 0, 0, 0)',
+                        xaxis={'fixedrange': True},
+                        yaxis={'fixedrange': True}
                         )
 
     chart.update_xaxes(title_font_family='Arial',
@@ -113,8 +115,6 @@ def barchart(specs_dictionary):
     chart.add_hline(y=0, line_width=2, line_color="black")
 
     return chart
-
-
 
 
 
