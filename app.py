@@ -255,28 +255,28 @@ st.write(f"Listed below are the days when the {option} stock the price only rose
 st.table(one_way("Rise"))
 
 ###########################################################################
-#Probability of Closing High on a Monday
-#Probability of Closing Low on a Monday
 def close_status(close):
-    # Probability of Closing High on a Monday
-    # Probability of Closing Low on a Monday
-    def weekday_rise_or_fall_probability(d):
+    def weekday_rise_or_fall_probability(d, close):
         prob = stock_historical[stock_historical["Day"] == d]
-        prob_condition = prob["Close-Open"] > 0
-        return str(prob[prob_condition].count()[0]) + str('/') + str(prob.count()[0])
+        if close == 'High':
+            prob_condition = prob["Close-Open"]>0
+        elif close == 'Low':
+            prob_condition = prob["Close-Open"]<0
+        return str(prob[prob_condition].count()[0])+str('/')+str(prob.count()[0])
 
     probabilities = {}
     for d in weekdays:
-        probabilities[d] = weekday_rise_or_fall_probability(d)
+        probabilities[d] = weekday_rise_or_fall_probability(d, close)
 
-    probabilities = pd.DataFrame({'Day': probabilities.keys(),
-                                  'Chances': probabilities.values(),
-                                  # 'Chances(%)' : probabilities.values()
-                                  })
+
+    probabilities = pd.DataFrame({'Day' : probabilities.keys(),
+                                 'Chances' : probabilities.values(),
+                                 #'Chances(%)' : probabilities.values()
+                                 })
 
     probabilities["Chances"] = probabilities["Chances"]
-    probabilities = probabilities.set_index('Day')
-    return(probabilities)
+    return probabilities
+
 
 st.title(f"How Many Times Did {option} Close High")
 st.write(f"On how many Mondays did the price of {option} close higher than the opening price? "
