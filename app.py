@@ -258,26 +258,25 @@ st.table(one_way("Rise"))
 #Probability of Closing High on a Monday
 #Probability of Closing Low on a Monday
 def close_status(close):
-    def weekday_rise_or_fall_probability(d, close):
+    # Probability of Closing High on a Monday
+    # Probability of Closing Low on a Monday
+    def weekday_rise_or_fall_probability(d):
         prob = stock_historical[stock_historical["Day"] == d]
-        if close == 'High':
-            prob_condition = prob["Close-Open"]>0
-        elif close == 'Low':
-            prob_condition = prob["Close-Open"]<0
-        return str(prob[prob_condition].count()[0])+str('/')+str(prob.count()[0])
+        prob_condition = prob["Close-Open"] > 0
+        return str(prob[prob_condition].count()[0]) + str('/') + str(prob.count()[0])
 
     probabilities = {}
     for d in weekdays:
-        probabilities[d] = weekday_rise_or_fall_probability(d, close)
+        probabilities[d] = weekday_rise_or_fall_probability(d)
 
-
-    probabilities = pd.DataFrame({'Day' : probabilities.keys(),
-                                 'Chances' : probabilities.values(),
-                                 #'Chances(%)' : probabilities.values()
-                                 })
+    probabilities = pd.DataFrame({'Day': probabilities.keys(),
+                                  'Chances': probabilities.values(),
+                                  # 'Chances(%)' : probabilities.values()
+                                  })
 
     probabilities["Chances"] = probabilities["Chances"]
-    return probabilities
+    probabilities = probabilities.set_index('Day')
+    return(probabilities)
 
 st.title(f"How Many Times Did {option} Close High")
 st.write(f"On how many Mondays did the price of {option} close higher than the opening price? "
@@ -332,3 +331,6 @@ past_days_chart_specs = {'x': past_days['Date'],
                          'yaxis_title': 'RISE OR FALL'
                          }
 st.plotly_chart(barchart(past_days_chart_specs), use_container_width=True)
+
+st.subheader('Subscribe Now!')
+st.write(f'To see more previous {past_days["Day"][0]}s.')
