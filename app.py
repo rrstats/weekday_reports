@@ -289,11 +289,25 @@ st.write(f"On how many Mondays did the price of {option} close lower than the op
 st.table(close_status("Low"))
 
 
+
+
+
+#####################################################
+st.session_state.horizontal = True
+chosen_day = st.radio("Day",
+        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        horizontal=st.session_state.horizontal)
+
+#past_days = past_particular_weekday(chosen_day[:3])
+
+#############################################
+no_of_previous_weekdays = st.slider(f'Number of previous weekdays',
+                                    2, 5, 4)
 #############################################################################################
 def past_particular_weekday(d):
     day_condition = stock_historical["Day"]==d
 
-    past = stock_historical[day_condition][-5:][["Day", "Date", "Close-Open"]]
+    past = stock_historical[day_condition][-no_of_previous_weekdays:][["Day", "Date", "Close-Open"]]
     past["Close-Open"] = past["Close-Open"].apply(lambda x: round(x, 2))
     #past["Day"] = past["Day"].apply(lambda x: dt.datetime.strptime(x, "%a").strftime("%A"))
 
@@ -301,15 +315,10 @@ def past_particular_weekday(d):
     past["Day"] = past["Date"].apply(lambda x: dt.datetime.strptime(x, "%B %d, %Y").strftime("%A"))
     return past
 
-
-###############################################
-st.session_state.horizontal = True
-chosen_day = st.radio("Day",
-        ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        horizontal=st.session_state.horizontal)
-
+###################################################
 past_days = past_particular_weekday(chosen_day[:3])
-#############################################
+###############################################
+
 
 past_days_chart_specs = {'x': past_days['Date'],
                          'y': past_days['Close-Open'],
@@ -330,6 +339,7 @@ past_days_chart_specs = {'x': past_days['Date'],
                          'xaxis_title': f'PREVIOUS {(past_days["Day"][0]).upper()}S',
                          'yaxis_title': 'RISE OR FALL'
                          }
+
 st.plotly_chart(barchart(past_days_chart_specs), use_container_width=True)
 
 st.subheader('Subscribe Now!')
