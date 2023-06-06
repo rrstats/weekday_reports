@@ -160,7 +160,7 @@ median_volumes_chart_specs = {'x': median_volumes['Day'],
                               'xaxis_title': 'DAY',
                               'yaxis_title': 'MEDIAN VOLUME'
                               }
-st.write(barchart(median_volumes_chart_specs))
+st.plotly_chart(barchart(median_volumes_chart_specs), use_container_width=True)
 
 
 ################################################################################
