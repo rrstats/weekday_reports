@@ -103,9 +103,6 @@ def barchart(specs_dictionary):
                         yaxis_title=specs_dictionary["yaxis_title"],
                         plot_bgcolor='rgba(0, 0, 0, 0)',
                         paper_bgcolor='rgba(0, 0, 0, 0)',
-                        xaxis={'fixedrange': True},
-                        yaxis={'fixedrange': True}
-
                         )
 
     chart.update_xaxes(title_font_family='Arial',
@@ -113,9 +110,11 @@ def barchart(specs_dictionary):
     chart.update_yaxes(title_font_family='Arial',
                        title_font=dict(size=20))
 
-
+    chart.add_hline(y=0, line_width=2, line_color="black")
 
     return chart
+
+
 
 
 
@@ -125,6 +124,8 @@ stock_historical = get_data(str(option)+'.NS')
 
 #############################################################################################
 #last close price
+#currency
+currency = "INR"
 lcp = stock_historical["Close"][-1:][0]
 st.subheader(f"{option} : {round(lcp, 2)}")
 st.write("This is the last closing price.")
