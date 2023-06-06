@@ -10,7 +10,7 @@ import re
 
 st.title("Weekday Equity Report")
 st.write("Weekday Equity Reports give you a glimpse of how equities behave on weekdays! "
-         "Analysis is completely based on data. No personal views or opinions have been mentioned. "
+         "Analysis is completely based on past data. "
          "No information on this website must be construed as investment advice.")
 
 
@@ -127,7 +127,7 @@ stock_historical = get_data(str(option)+'.NS')
 #last close price
 lcp = stock_historical["Close"][-1:][0]
 st.subheader(f"{option} : {round(lcp, 2)}")
-st.write("The is the last closing price.")
+st.write("This is the last closing price.")
 ################################################################################
 st.title("Average Weekday Volume")
 st.write(f"For the past {days} days, the average volume of {option} for each weekday is shown. Here the median is used! "
@@ -223,16 +223,22 @@ def one_way(rise_or_fall):
     if rise_or_fall == 'Rise':
         condition_for_table = stock_historical['Open'] == stock_historical["Low"]
         only = stock_historical[condition_for_table][display_columns].set_index('Date')
-        only["Absolute"] = only["High"] - only["Open"]
-        only["%"] = (only["Absolute"] / only["Open"]) * 100
+
+        only["Absolute"] = round(only["High"] - only["Open"], 2)
+        only["%"] = round((only["Absolute"] / only["Open"]) * 100, 2)
+
+        only = only.drop(["Open", "High", "Low"], axis=1)
         if only.empty: print("NO DATA!")
         return only
 
     elif rise_or_fall == 'Fall':
         condition_for_table = stock_historical['Open'] == stock_historical["High"]
         only = stock_historical[condition_for_table][display_columns].set_index('Date')
-        only["Absolute"] = only["Low"] - only["Open"]
-        only["%"] = (only["Absolute"] / only["Open"]) * 100
+
+        only["Absolute"] = round(only["Low"] - only["Open"], 2)
+        only["%"] = round((only["Absolute"] / only["Open"]) * 100, 2)
+
+        only = only.drop(["Open", "High", "Low"], axis=1)
         if only.empty: print("NO DATA!")
         return only
 
