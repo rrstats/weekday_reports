@@ -81,7 +81,7 @@ def date_to_indian_format(date1):
 
 def get_data(stock_name):
     stock = yf.Ticker(stock_name)
-    stock_historical = stock.history(period=str(days)+'d')
+    stock_historical = stock.history(period=str(str(days)+'d'))
     stock_historical = stock_historical.drop(columns_to_drop, axis=1)
     # Creating a Day column
     stock_historical["Day"] = stock_historical.index
@@ -215,7 +215,7 @@ st.table(median_intraday_changes)
 ####################################################################################
 median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        'y': median_intraday_changes['Median Intraday Change'],
-                                        'title' : f'AVERAGE INTRADAY<br>POSITIVE CHANGE<br><sup>{option}</sup><br><sup>{currency}',
+                                        'title' : f'AVERAGE INTRADAY<br>POSITIVE CHANGE<br><sup>{option}</sup>',
 
                                        # can be one color or multiple colors
                                        'marker_color': '#0A7029',
