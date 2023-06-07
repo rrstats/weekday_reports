@@ -48,8 +48,13 @@ else:
 days = st.radio(
     "Time Period",
     ('30 days', '60 days', '365 days'))
-days=re.findall(r'\d+', days)[0]
-print(days)
+#days=re.findall(r'\d+', days)[0]
+
+
+days = int(days.split("days")[0])
+
+
+
 
 
 
@@ -122,6 +127,8 @@ def barchart(specs_dictionary):
 
     chart.add_hline(y=0, line_width=2, line_color="black")
 
+    chart.update_traces(texttemplate='%{text:.3s}')
+
     return chart
 
 
@@ -133,7 +140,7 @@ stock_historical = get_data(str(option)+'.NS')
 #############################################################################################
 #last close price
 #currency
-currency = "INR"
+currency = "₹"
 lcp = stock_historical["Close"][-1:][0]
 st.subheader(f"{option} : {round(lcp, 2)}")
 st.write("This is the last closing price.")
@@ -142,6 +149,8 @@ st.title("Average Weekday Volume")
 st.write(f"For the past {days} days, the average volume of {option} for each weekday is shown. Here the median is used! "
          f"This is very similar to the Average Daily Trading Volume (ADVT), however, it gives a more detailed picture of a "
          f"particular weekday's volume.")
+
+
 def median_volume(d):
     vol = stock_historical[stock_historical["Day"] == d]["Volume"]
     return vol.median()
@@ -206,7 +215,7 @@ st.table(median_intraday_changes)
 ####################################################################################
 median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        'y': median_intraday_changes['Median Intraday Change'],
-                                        'title' : f'AVERAGE INTRADAY<br>POSITIVE CHANGE<br><sup>{option}',
+                                        'title' : f'AVERAGE INTRADAY<br>POSITIVE CHANGE<br><sup>{option}</sup><br><sup>{currency}',
 
                                        # can be one color or multiple colors
                                        'marker_color': '#0A7029',
@@ -330,7 +339,7 @@ past_days = past_particular_weekday(chosen_day[:3])
 
 past_days_chart_specs = {'x': past_days['Date'],
                          'y': past_days['Close-Open'],
-                         'title': f'HOW MUCH DID<br>{option} RISE OR FALL?',
+                         'title': f'HOW MUCH DID<br>{option} RISE OR FALL?<br><sup>{currency}',
 
                          # can be one color or multiple colors
                          'marker_color': past_days["Color"],
