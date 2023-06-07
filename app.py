@@ -151,6 +151,8 @@ st.write(f"For the past {days} days, the average volume of {option} for each wee
          f"particular weekday's volume.")
 
 
+st.write("Heads-up : If charts don't load, you may need to upgrade to the latest version of your browser. Use your PC instead!")
+
 def median_volume(d):
     vol = stock_historical[stock_historical["Day"] == d]["Volume"]
     return vol.median()
