@@ -14,6 +14,10 @@ st.write("Weekday Equity Reports give you a glimpse of how equities behave on we
          "No information on this website must be construed as investment advice.")
 
 
+goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
+
+
+
 
 paid_options = ["ADANITRANS", "NYKAA", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ITC", "HDFCBANK", "ADANIPORTS", "INFY"]
 
@@ -27,7 +31,7 @@ avl=sorted(avl)
 selected = st.selectbox('Stock', avl)
 
 if selected in paid_options:
-    st.subheader("Subscribe to know about this stock! You can take a look at other companies!")
+    st.subheader(f'[Subscribe to know about this stock!](%s) You can take a look at other companies! ' % goole_form_url)
     option = 'ICICIBANK'
 else:
     option = selected
@@ -342,5 +346,5 @@ past_days_chart_specs = {'x': past_days['Date'],
 
 st.plotly_chart(barchart(past_days_chart_specs), use_container_width=True)
 
-st.subheader('Subscribe Now!')
+st.subheader(f'[Subscribe Now!](%s)' % goole_form_url)
 st.write(f'To see more previous {past_days["Day"][0]}s.')
