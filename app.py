@@ -5,7 +5,7 @@ import datetime as dt
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-import re
+
 
 goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
 
