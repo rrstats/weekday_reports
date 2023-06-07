@@ -7,22 +7,26 @@ import plotly.graph_objects as go
 import streamlit as st
 import re
 
+goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
+
 
 st.title("Weekday Equity Report")
 st.write("Weekday Equity Reports give you a glimpse of how equities behave on weekdays! "
          "Analysis is completely based on past data. "
          "No information on this website must be construed as investment advice.")
+st.write("[SUBCRIBE NOW](%s) to access reports of all NSE500 companies. This is just a trial version."
+          % goole_form_url)
 
 
-goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
+
 
 
 
 
 paid_options = ["ADANITRANS", "NYKAA", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ITC", "HDFCBANK", "ADANIPORTS", "INFY"]
 
-avl1= ["ICICIPRULI","BEL","TATAPOWER","CHOLAFIN","MOTHERSON","VBL","PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "BANKBARODA", "NAUKRI", "BAJFINANCE",]
-avl = ["ACC","AXISBANK","M&M","POWERGRID","ICICIBANK", "BRITANNIA", "SBILIFE", "GRASIM", "BAJAJ-AUTO", "SUNPHARMA", "TATAMOTORS", "MARUTI", "LT", "ULTRACEMCO", "NTPC", "UPL", "BHARTIARTL", "HINDALCO", "ONGC", "TATACONSUM", "RELIANCE", "HDFC", "KOTAKBANK", "HDFCLIFE", "HEROMOTOCO", "BAJAJFINSV", "HCLTECH", "SBIN", "NESTLEIND", "TITAN", "APOLLOHOSP", "WIPRO", "TCS", "TATASTEEL", "INDUSINDBK", "COALINDIA", "TECHM", "BPCL", "ADANIPOWER"]
+avl1= ["CHOLAFIN", "VBL","PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "BANKBARODA", "NAUKRI", "BAJFINANCE",]
+avl = ["ACC","AXISBANK","M&M", "ICICIBANK", "BAJAJ-AUTO", "TATAMOTORS", "LT", "NTPC", "UPL", "BHARTIARTL", "ONGC", "RELIANCE", "HDFC", "HDFCLIFE", "BAJAJFINSV", "SBIN", "NESTLEIND", "APOLLOHOSP", "TCS", "TATASTEEL", "INDUSINDBK", "COALINDIA", "ADANIPOWER"]
 avl1.extend(paid_options)
 avl.extend(avl1)
 
