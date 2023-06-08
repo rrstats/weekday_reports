@@ -11,6 +11,7 @@ goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
 
 
 st.title("Weekday Equity Report")
+st.subheader("Weekday Equity Report")
 st.write("Weekday Equity Reports give you a glimpse of how equities behave on weekdays! "
          "Analysis is completely based on past data. "
          "No information on this website must be construed as investment advice.")
@@ -18,14 +19,20 @@ st.write("[SUBCRIBE NOW](%s) to access reports of all NSE500 companies. This is 
           % goole_form_url)
 
 
+# indices = ()
+# type_of_company = st.radio(
+#     "Company Type",
+#     ('Bank', '60 days', '365 days'))
+# #days=re.findall(r'\d+', days)[0]
+#
+#
+# days = int(days.split("days")[0])
 
 
 
+paid_options = ["ADANITRANS", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ITC", "HDFCBANK", "ADANIPORTS", "INFY"]
 
-
-paid_options = ["ADANITRANS", "NYKAA", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ITC", "HDFCBANK", "ADANIPORTS", "INFY"]
-
-avl1= ["CHOLAFIN", "VBL","PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "BANKBARODA", "NAUKRI", "BAJFINANCE",]
+avl1= ["ICICIPRULI", "NYKAA",  "CHOLAFIN", "VBL","PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "BANKBARODA", "NAUKRI", "BAJFINANCE",]
 avl = ["ACC","AXISBANK","M&M", "ICICIBANK", "BAJAJ-AUTO", "TATAMOTORS", "LT", "NTPC", "UPL", "BHARTIARTL", "ONGC", "RELIANCE", "HDFC", "HDFCLIFE", "BAJAJFINSV", "SBIN", "NESTLEIND", "APOLLOHOSP", "TCS", "TATASTEEL", "INDUSINDBK", "COALINDIA", "ADANIPOWER"]
 avl1.extend(paid_options)
 avl.extend(avl1)
@@ -39,6 +46,7 @@ if selected in paid_options:
     option = 'ICICIBANK'
 else:
     option = selected
+
 
 
 #format for yfinance data is 180d or 32d or 48d
@@ -213,7 +221,7 @@ median_intraday_changes = pd.DataFrame({'Day': median_intraday_changes.keys(),
 median_intraday_changes["Median Intraday Change"] = median_intraday_changes["Median Intraday Change"].apply(
     lambda x: round(x, 1))
 
-st.table(median_intraday_changes)
+
 ####################################################################################
 median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        'y': median_intraday_changes['Median Intraday Change'],
@@ -234,44 +242,11 @@ median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        'xaxis_title': 'DAY',
                                        'yaxis_title': 'MEDIAN INTRADAY CHANGE'
                                        }
-st.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
+#st.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
 
-###################################################################################
-def one_way(rise_or_fall):
-    display_columns = ["Date", "Day", "Open", "High", "Low"]
-
-    if rise_or_fall == 'Rise':
-        condition_for_table = stock_historical['Open'] == stock_historical["Low"]
-        only = stock_historical[condition_for_table][display_columns].set_index('Date')
-
-        only["Absolute"] = round(only["High"] - only["Open"], 2)
-        only["%"] = round((only["Absolute"] / only["Open"]) * 100, 2)
-
-        only = only.drop(["Open", "High", "Low"], axis=1)
-        if only.empty: print("NO DATA!")
-        return only
-
-    elif rise_or_fall == 'Fall':
-        condition_for_table = stock_historical['Open'] == stock_historical["High"]
-        only = stock_historical[condition_for_table][display_columns].set_index('Date')
-
-        only["Absolute"] = round(only["Low"] - only["Open"], 2)
-        only["%"] = round((only["Absolute"] / only["Open"]) * 100, 2)
-
-        only = only.drop(["Open", "High", "Low"], axis=1)
-        if only.empty: print("NO DATA!")
-        return only
-
-
-st.title(f"When {option} Only Fell")
-st.write(f"Listed below are the days when the {option} stock price only kept falling. "
-         f"On these days, it never went above the opening price. This data is for the past {days} days.")
-st.table(one_way("Fall"))
-
-st.title(f"When  {option} Only Rose")
-st.write(f"Listed below are the days when the {option} stock price only rose. "
-         f"On these days, it never went below the opening price. This data is for the past {days} days.")
-st.table(one_way("Rise"))
+tab_mipc_chart, tab_mipc_table = st.tabs(["Chart", "Data"])
+tab_mipc_chart.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
+tab_mipc_table.table(median_intraday_changes)
 
 ###########################################################################
 def close_status(close):
@@ -297,15 +272,18 @@ def close_status(close):
     return probabilities
 
 
-st.title(f"How Many Times Did {option} Close High")
-st.write(f"On how many Mondays did the price of {option} close higher than the opening price? "
-         f"Similary, listed below is the data for all days.")
-st.table(close_status("High"))
+st.title(f"Previous Weekday Trends of {option}")
+high_tab, low_tab = st.tabs(["High", "Low"])
 
-st.title(f"How Many Times Did {option} Close Low")
-st.write(f"On how many Mondays did the price of {option} close lower than the opening price? "
+high_tab.subheader(f"How Many Times Did {option} Close High")
+high_tab.write(f"On how many Mondays in the past {days} days, did the price of {option} close higher than the opening price? "
          f"Similary, listed below is the data for all days.")
-st.table(close_status("Low"))
+high_tab.table(close_status("High"))
+
+low_tab.subheader(f"How Many Times Did {option} Close Low")
+low_tab.write(f"On how many Mondays in the past {days} days, did the price of {option} close lower than the opening price? "
+         f"Similary, listed below is the data for all days.")
+low_tab.table(close_status("Low"))
 
 
 
@@ -361,5 +339,47 @@ past_days_chart_specs = {'x': past_days['Date'],
 
 st.plotly_chart(barchart(past_days_chart_specs), use_container_width=True)
 
+
+
+##################################################################################
+def one_way(rise_or_fall):
+    display_columns = ["Date", "Day", "Open", "High", "Low"]
+
+    if rise_or_fall == 'Rise':
+        condition_for_table = stock_historical['Open'] == stock_historical["Low"]
+        only = stock_historical[condition_for_table][display_columns].set_index('Date')
+
+        only["Absolute"] = round(only["High"] - only["Open"], 2)
+        only["%"] = round((only["Absolute"] / only["Open"]) * 100, 2)
+
+        only = only.drop(["Open", "High", "Low"], axis=1)
+        if only.empty: print("NO DATA!")
+        return only
+
+    elif rise_or_fall == 'Fall':
+        condition_for_table = stock_historical['Open'] == stock_historical["High"]
+        only = stock_historical[condition_for_table][display_columns].set_index('Date')
+
+        only["Absolute"] = round(only["Low"] - only["Open"], 2)
+        only["%"] = round((only["Absolute"] / only["Open"]) * 100, 2)
+
+        only = only.drop(["Open", "High", "Low"], axis=1)
+        if only.empty: print("NO DATA!")
+        return only
+
+
+st.title(f"When {option} Only Fell")
+st.write(f"Listed below are the days when the {option} stock price only kept falling. "
+         f"On these days, it never went above the opening price. This data is for the past {days} days.")
+st.table(one_way("Fall"))
+
+st.title(f"When  {option} Only Rose")
+st.write(f"Listed below are the days when the {option} stock price only rose. "
+         f"On these days, it never went below the opening price. This data is for the past {days} days.")
+st.table(one_way("Rise"))
+
+
 st.subheader(f'[Subscribe Now!](%s)' % goole_form_url)
 st.write(f'To see more previous {past_days["Day"][0]}s.')
+
+
