@@ -368,15 +368,28 @@ def one_way(rise_or_fall):
         return only
 
 
-st.title(f"When {option} Only Fell")
-st.write(f"Listed below are the days when the {option} stock price only kept falling. "
-         f"On these days, it never went above the opening price. This data is for the past {days} days.")
-st.table(one_way("Fall"))
+# st.title(f"When {option} Only Fell")
+# st.write(f"Listed below are the days when the {option} stock price only kept falling. "
+#          f"On these days, it never went above the opening price. This data is for the past {days} days.")
+# st.table(one_way("Fall"))
+#
+# st.title(f"When  {option} Only Rose")
+# st.write(f"Listed below are the days when the {option} stock price only rose. "
+#          f"On these days, it never went below the opening price. This data is for the past {days} days.")
+# st.table(one_way("Rise"))
 
-st.title(f"When  {option} Only Rose")
-st.write(f"Listed below are the days when the {option} stock price only rose. "
+
+with st.expander(f"Also See: Days When {option} Only Fell"):
+    st.title(f"When {option} Only Fell")
+    st.write(f"Listed below are the days when the {option} stock price only kept falling. "
+         f"On these days, it never went above the opening price. This data is for the past {days} days.")
+    st.table(one_way("Fall"))
+
+with st.expander(f"Also See: Days When {option} Only Rose"):
+    st.title(f"When  {option} Only Rose")
+    st.write(f"Listed below are the days when the {option} stock price only rose. "
          f"On these days, it never went below the opening price. This data is for the past {days} days.")
-st.table(one_way("Rise"))
+    st.table(one_way("Rise"))
 
 
 st.subheader(f'[Subscribe Now!](%s)' % goole_form_url)
