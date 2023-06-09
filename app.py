@@ -11,55 +11,60 @@ goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
 
 
 st.title("Weekday Equity Report")
-st.subheader("Weekday Equity Report")
-st.write("Weekday Equity Reports give you a glimpse of how equities behave on weekdays! "
-         "Analysis is completely based on past data. "
-         "No information on this website must be construed as investment advice.")
+#st.subheader("Weekday Equity Report")
+
+#Hack! Three inverted commas. For new line, add two spaces after text instead of using \n
+st.write("""Weekday Equity Reports give you a glimpse of how equities behave on weekdays!
+        Analysis is completely based on past data.  
+        No information on this website must be construed as investment advice.""")
+
 st.write("[SUBCRIBE NOW](%s) to access reports of all NSE500 companies. This is just a trial version."
           % goole_form_url)
 
 
-# indices = ()
-# type_of_company = st.radio(
-#     "Company Type",
-#     ('Bank', '60 days', '365 days'))
-# #days=re.findall(r'\d+', days)[0]
-#
-#
-# days = int(days.split("days")[0])
 
 
+
+
+
+banks = ["AXISBANK","BANDHANBNK","CUB","FEDERALBNK","HDFCBANK","ICICIBANK","IDFCFIRSTB","INDUSINDBK","KOTAKBANK","RBLBANK",
+        "BANKBARODA","BANKINDIA","MAHABANK","CANBK","CENTRALBK","INDIANB","IOB","PSB","PNB","SBIN","UCOBANK","UNIONBANK"]
+fmcg = ["BRITANNIA","COLPAL","DABUR","EMAMILTD","GODREJCP","HINDUNILVR","ITC","MARICO","NESTLEIND","PGHH","RADICO","TATACONSUM","UBL","MCDOWELL-N","VBL"]
+IT = ["COFORGE","HCLTECH","INFY","LTTS","LTIM","MPHASIS","PERSISTENT","TCS","TECHM","WIPRO"]
+AUTO = ["ASHOKLEY","BAJAJ-AUTO","BALKRISIND","BHARATFORG","BOSCHLTD","EICHERMOT","HEROMOTOCO","MRF","M&M","MARUTI","MOTHERSON","SONACOMS","TVSMOTOR","TATAMOTORS","TIINDIA"]
 
 paid_options = ["ADANITRANS", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ITC", "HDFCBANK", "ADANIPORTS", "INFY"]
 
 avl1= ["ICICIPRULI", "NYKAA",  "CHOLAFIN", "VBL","PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "BANKBARODA", "NAUKRI", "BAJFINANCE",]
 avl = ["ACC","AXISBANK","M&M", "ICICIBANK", "BAJAJ-AUTO", "TATAMOTORS", "LT", "NTPC", "UPL", "BHARTIARTL", "ONGC", "RELIANCE", "HDFC", "HDFCLIFE", "BAJAJFINSV", "SBIN", "NESTLEIND", "APOLLOHOSP", "TCS", "TATASTEEL", "INDUSINDBK", "COALINDIA", "ADANIPOWER"]
 avl1.extend(paid_options)
-avl.extend(avl1)
+avl = avl + avl1 + banks + fmcg + IT + AUTO
 
 
-avl=sorted(avl)
-selected = st.selectbox('Stock', avl)
 
-if selected in paid_options:
-    st.subheader(f'[Subscribe to know about this stock!](%s) You can take a look at other companies! ' % goole_form_url)
-    option = 'ICICIBANK'
+st.session_state.horizontal = True
+indices = ('All', 'Banks', 'FMCG', 'IT', 'Auto')
+type_of_company = st.radio(
+    "Company Type",
+    indices,
+horizontal = st.session_state.horizontal)
+
+
+if type_of_company == 'Banks':
+    avl = sorted(banks)
+elif type_of_company == 'FMCG':
+    avl = sorted(fmcg)
+elif type_of_company == 'IT':
+    avl = sorted(IT)
+elif type_of_company == 'Auto':
+    avl = sorted(AUTO)
 else:
-    option = selected
+    avl = sorted(avl)
 
 
 
-#format for yfinance data is 180d or 32d or 48d
-#integer+d
+#selected = st.selectbox('Stock', avl, key=2)
 
-
-days = st.radio(
-    "Time Period",
-    ('30 days', '60 days', '365 days'))
-#days=re.findall(r'\d+', days)[0]
-
-
-days = int(days.split("days")[0])
 
 
 
@@ -143,8 +148,34 @@ def barchart(specs_dictionary):
 
 
 
-stock_historical = get_data(str(option)+'.NS')
 
+###########################################################################################
+#Company Selection Using the Dropdown Menu
+
+selected = st.selectbox('Stock', avl)
+
+if selected in paid_options:
+    st.subheader(f'[Subscribe to know about this stock!](%s) You can take a look at other companies! ' % goole_form_url)
+    option = 'ICICIBANK'
+else:
+    option = selected
+
+
+
+#format for yfinance data is 180d or 32d or 48d
+#integer+d
+
+
+days = st.radio(
+    "Time Period",
+    ('30 days', '60 days', '365 days'))
+#days=re.findall(r'\d+', days)[0]
+
+
+days = int(days.split("days")[0])
+
+###############################################################################
+stock_historical = get_data(str(option)+'.NS')
 #############################################################################################
 #last close price
 #currency
@@ -154,9 +185,9 @@ st.subheader(f"{option} : {round(lcp, 2)}")
 st.write("This is the last closing price.")
 ################################################################################
 st.title("Average Weekday Volume")
-st.write(f"For the past {days} days, the average volume of {option} for each weekday is shown. Here the median is used! "
-         f"This is very similar to the Average Daily Trading Volume (ADVT), however, it gives a more detailed picture of a "
-         f"particular weekday's volume.")
+st.write(f"""For the past {days} days, the average volume of {option} for each weekday is shown. Here the median is used!  
+         This is very similar to the Average Daily Trading Volume (ADVT), however, it gives a more detailed picture of a
+         particular weekday's volume.""")
 
 
 st.write("Heads-up : If charts don't load, you may need to upgrade to the latest version of your browser. Use your PC instead!")
@@ -277,12 +308,12 @@ high_tab, low_tab = st.tabs(["High", "Low"])
 
 high_tab.subheader(f"How Many Times Did {option} Close High")
 high_tab.write(f"On how many Mondays in the past {days} days, did the price of {option} close higher than the opening price? "
-         f"Similary, listed below is the data for all days.")
+         f"Listed below is the data for all days.")
 high_tab.table(close_status("High"))
 
 low_tab.subheader(f"How Many Times Did {option} Close Low")
 low_tab.write(f"On how many Mondays in the past {days} days, did the price of {option} close lower than the opening price? "
-         f"Similary, listed below is the data for all days.")
+         f"Listed below is the data for all days.")
 low_tab.table(close_status("Low"))
 
 
