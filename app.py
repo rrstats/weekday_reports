@@ -161,28 +161,31 @@ else:
     option = selected
 
 
-
+currency = "₹"
 #format for yfinance data is 180d or 32d or 48d
 #integer+d
+up_col1, up_col2 = st.columns(2)
 
+with up_col1:
+    days = st.radio(
+        "Time Period",
+        ('30 days', '60 days', '365 days'))
 
-days = st.radio(
-    "Time Period",
-    ('30 days', '60 days', '365 days'))
-#days=re.findall(r'\d+', days)[0]
+    days = int(days.split("days")[0])
 
-
-days = int(days.split("days")[0])
 
 ###############################################################################
 stock_historical = get_data(str(option)+'.NS')
+
+
 #############################################################################################
 #last close price
 #currency
-currency = "₹"
-lcp = stock_historical["Close"][-1:][0]
-st.subheader(f"{option} : {round(lcp, 2)}")
-st.write("This is the last closing price.")
+with up_col2:
+    lcp = stock_historical["Close"][-1:][0]
+    st.subheader(f"{option} : {round(lcp, 2)}")
+    st.write("This is the last closing price.")
+
 ################################################################################
 st.title("Average Weekday Volume")
 st.write(f"""For the past {days} days, the average volume of {option} for each weekday is shown. Here the median is used!  
@@ -228,10 +231,7 @@ st.plotly_chart(barchart(median_volumes_chart_specs), use_container_width=True)
 
 ################################################################################
 # Intraday Positive Change
-st.title("Average Intraday Positive Change")
-st.write("What is the Average Intraday Positive Change? ")
-st.write("Suppose the Average Intraday Positive Change for a stock ABCD is Rs 2, "
-         "that means half the time, the positive change in price has been above Rs 2 and half the time it has been below Rs 2.")
+
 
 
 # Intraday Positive Change
@@ -275,9 +275,8 @@ median_intraday_changes_chart_specs = {'x': median_intraday_changes['Day'],
                                        }
 #st.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
 
-tab_mipc_chart, tab_mipc_table = st.tabs(["Chart", "Data"])
-tab_mipc_chart.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
-tab_mipc_table.table(median_intraday_changes)
+
+
 
 ###########################################################################
 def close_status(close):
@@ -410,6 +409,10 @@ def one_way(rise_or_fall):
 # st.table(one_way("Rise"))
 
 
+
+
+
+
 with st.expander(f"Also See: Days When {option} Only Fell"):
     st.title(f"When {option} Only Fell")
     st.write(f"Listed below are the days when the {option} stock price only kept falling. "
@@ -421,6 +424,18 @@ with st.expander(f"Also See: Days When {option} Only Rose"):
     st.write(f"Listed below are the days when the {option} stock price only rose. "
          f"On these days, it never went below the opening price. This data is for the past {days} days.")
     st.table(one_way("Rise"))
+
+    
+
+with st.expander(f"Also See: Average Intraday Positive Change for {option}"):
+    st.title("Average Intraday Positive Change")
+    st.write("What is the Average Intraday Positive Change? ")
+    st.write("Suppose the Average Intraday Positive Change for a stock ABCD is Rs 2, "
+             "that means half the time, the positive change in price has been above Rs 2 and half the time it has been below Rs 2.")
+    tab_mipc_chart, tab_mipc_table = st.tabs(["Chart", "Data"])
+    tab_mipc_chart.plotly_chart(barchart(median_intraday_changes_chart_specs), use_container_width=True)
+    tab_mipc_table.table(median_intraday_changes)
+
 
 
 st.subheader(f'[Subscribe Now!](%s)' % goole_form_url)
