@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 
+
 goole_form_url = "https://forms.gle/nN8VEgWxShLBxHtb9"
 
 
@@ -18,8 +19,8 @@ st.write("""Weekday Equity Reports give you a glimpse of how equities behave on 
         Analysis is completely based on past data.  
         No information on this website must be construed as investment advice.""")
 
-st.write("[SUBCRIBE NOW](%s) to access reports of all NSE500 companies. This is just a trial version."
-          % goole_form_url)
+# st.write("[SUBCRIBE NOW](%s) to access reports of all NSE500 companies. This is just a trial version."
+#           % goole_form_url)
 
 
 
@@ -33,10 +34,10 @@ fmcg = ["BRITANNIA","COLPAL","DABUR","EMAMILTD","GODREJCP","HINDUNILVR","ITC","M
 IT = ["COFORGE","HCLTECH","INFY","LTTS","LTIM","MPHASIS","PERSISTENT","TCS","TECHM","WIPRO"]
 AUTO = ["ASHOKLEY","BAJAJ-AUTO","BALKRISIND","BHARATFORG","BOSCHLTD","EICHERMOT","HEROMOTOCO","MRF","M&M","MARUTI","MOTHERSON","SONACOMS","TVSMOTOR","TATAMOTORS","TIINDIA"]
 
-paid_options = ["ADANITRANS", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ITC", "HDFCBANK", "ADANIPORTS", "INFY"]
+paid_options = ["ADANITRANS", "MUTHOOTFIN", "LICI", "IRCTC", "ADANIENT", "ADANIPORTS"]
 
-avl1= ["ICICIPRULI", "NYKAA",  "CHOLAFIN", "VBL","PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "BANKBARODA", "NAUKRI", "BAJFINANCE",]
-avl = ["ACC","AXISBANK","M&M", "ICICIBANK", "BAJAJ-AUTO", "TATAMOTORS", "LT", "NTPC", "UPL", "BHARTIARTL", "ONGC", "RELIANCE", "HDFC", "HDFCLIFE", "BAJAJFINSV", "SBIN", "NESTLEIND", "APOLLOHOSP", "TCS", "TATASTEEL", "INDUSINDBK", "COALINDIA", "ADANIPOWER"]
+avl1= ["ICICIPRULI", "NYKAA",  "CHOLAFIN", "PIDILITIND","SBICARD","ADANIGREEN","ZOMATO","DMART", "NAUKRI", "BAJFINANCE"]
+avl = ["ACC", "LT", "NTPC", "UPL", "BHARTIARTL", "ONGC", "RELIANCE", "BAJAJFINSV", "APOLLOHOSP", "TATASTEEL", "INDUSINDBK", "COALINDIA", "ADANIPOWER"]
 avl1.extend(paid_options)
 avl = avl + avl1 + banks + fmcg + IT + AUTO
 
@@ -152,12 +153,13 @@ def barchart(specs_dictionary):
 
 selected = st.selectbox('Stock', avl)
 
-if selected in paid_options:
-    st.subheader(f'[Subscribe to know about this stock!](%s) You can take a look at other companies! ' % goole_form_url)
-    option = 'ICICIBANK'
-else:
-    option = selected
+# if selected in paid_options:
+#     st.subheader(f'[Subscribe to know about this stock!](%s) You can take a look at other companies! ' % goole_form_url)
+#     option = 'ICICIBANK'
+# else:
+#     option = selected
 
+option = selected
 
 currency = "₹"
 #format for yfinance data is 180d or 32d or 48d
@@ -435,8 +437,8 @@ with st.expander(f"Also See: Average Intraday Positive Change for {option}"):
     tab_mipc_table.table(median_intraday_changes)
 
 
-
-st.subheader(f'[Subscribe Now!](%s)' % goole_form_url)
-st.write(f'To see more previous {past_days["Day"][0]}s.')
+#
+# st.subheader(f'[Subscribe Now!](%s)' % goole_form_url)
+# st.write(f'To see more previous {past_days["Day"][0]}s.')
 
 
