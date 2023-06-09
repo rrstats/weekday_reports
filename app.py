@@ -128,7 +128,7 @@ def barchart(specs_dictionary):
                         xaxis_title=specs_dictionary["xaxis_title"],
                         yaxis_title=specs_dictionary["yaxis_title"],
                         plot_bgcolor='rgba(0, 0, 0, 0)',
-                        paper_bgcolor='rgba(0, 0, 0, 0)',
+                        paper_bgcolor='#FFFFFF',
                         xaxis={'fixedrange': True},
                         yaxis={'fixedrange': True}
                         )
@@ -139,8 +139,6 @@ def barchart(specs_dictionary):
                        title_font=dict(size=20))
 
     chart.add_hline(y=0, line_width=2, line_color="black")
-
-    chart.update_traces(texttemplate='%{text:.3s}')
 
     return chart
 
@@ -425,7 +423,7 @@ with st.expander(f"Also See: Days When {option} Only Rose"):
          f"On these days, it never went below the opening price. This data is for the past {days} days.")
     st.table(one_way("Rise"))
 
-    
+
 
 with st.expander(f"Also See: Average Intraday Positive Change for {option}"):
     st.title("Average Intraday Positive Change")
